@@ -77,7 +77,7 @@ abstract class AbstractDocumentableClass
 
     public function getName(): string
     {
-        return "{$this->reflectionClass->getNamespaceName()}\\{$this->reflectionClass->getName()}";
+        return $this->reflectionClass->getName();
     }
 
     private function load(): void

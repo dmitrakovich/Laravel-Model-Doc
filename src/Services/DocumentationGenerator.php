@@ -749,7 +749,7 @@ class DocumentationGenerator
                 $returnType = $reflectionMethod->getReturnType();
 
                 if ($returnType instanceof \ReflectionNamedType) {
-                    return $returnType->getName();
+                    return '\\' . $returnType->getName();
                 }
 
                 // TODO: ReflectionUnionType & ReflectionIntersectionType

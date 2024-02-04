@@ -5,6 +5,7 @@ namespace romanzipp\ModelDoc\Services;
 use Doctrine\DBAL\Exception as DoctrineException;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as IlluminateModel;
@@ -741,6 +742,13 @@ class DocumentationGenerator
 
             if ($reflectionClass->isEnum()) {
                 return '\\' . $castType;
+            }
+
+            if ($reflectionClass->implementsInterface(CastsAttributes::class)) {
+                $reflectionMethod = $reflectionClass->getMethod('get');
+                $returnType = $reflectionMethod->getReturnType();
+
+                return $returnType ? '\\' . $returnType->getName() : null;
             }
         }
 

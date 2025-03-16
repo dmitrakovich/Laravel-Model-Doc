@@ -224,7 +224,7 @@ class DocumentationGenerator
 
             $ignoredMethods = ['getUseFactoryAttribute'];
             if (
-                !preg_match('/^get([A-z0-9_]+)Attribute$/', $method->getName(), $matches)
+                ! preg_match('/^get([A-z0-9_]+)Attribute$/', $method->getName(), $matches)
                 || in_array($method->getName(), $ignoredMethods, true)
             ) {
                 continue;

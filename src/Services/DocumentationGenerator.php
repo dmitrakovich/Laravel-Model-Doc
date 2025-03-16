@@ -222,7 +222,11 @@ class DocumentationGenerator
         foreach ($reflectionClass->getMethods() as $method) {
             $matches = [];
 
-            if ( ! preg_match('/^get([A-z0-9_]+)Attribute$/', $method->getName(), $matches)) {
+            $ignoredMethods = ['getUseFactoryAttribute'];
+            if (
+                !preg_match('/^get([A-z0-9_]+)Attribute$/', $method->getName(), $matches)
+                || in_array($method->getName(), $ignoredMethods, true)
+            ) {
                 continue;
             }
 
@@ -633,6 +637,7 @@ class DocumentationGenerator
             $types[] = match ($column['type_name'] ?? null) {
                 'int',
                 'integer',
+                'tinyint',
                 'mediumint',
                 'bigint',
                 'smallint',
@@ -657,8 +662,7 @@ class DocumentationGenerator
                 'blob',
                 'enum' => 'string',
                 // -----------------------------
-                'boolean',
-                'tinyint' => 'bool',
+                'boolean' => 'bool',
                 // -----------------------------
                 default => config('model-doc.attributes.fallback_type') ?: 'mixed',
             };
